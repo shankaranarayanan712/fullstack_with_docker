@@ -12,19 +12,19 @@ services:
     ports:
       - 80:80
     depends_on:
-      - nodejs
+      - server
       
-  nodejs:
-    container_name: nodejs
+  server:
+    container_name: server
     build:
-      context: nodejs/
+      context: server/
       dockerfile: Dockerfile
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_HOST=${MYSQL_HOST}
     volumes:
-      - './nodejs:/app'
+      - './server:/app'
       - '/app/node_modules'
     ports:
       - 3008:3008
