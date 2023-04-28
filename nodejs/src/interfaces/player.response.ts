@@ -17,7 +17,7 @@ export interface Pagination {
     perPage:  string | number;
     previous: number;
     next: number;
-    err? : string
+    err : string
 }
 
 export interface PlayerResponse {
