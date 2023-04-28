@@ -2,13 +2,13 @@ version: '3'
 
 services:
 
-  react:
-    container_name: react
+  frontend:
+    container_name: frontend
     build:
-      context: react/
+      context: frontend/
       dockerfile: Dockerfile
     volumes:
-      - './react:/app'
+      - './frontend:/app'
     ports:
       - 80:80
     depends_on:
