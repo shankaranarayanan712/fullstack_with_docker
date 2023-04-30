@@ -49,7 +49,6 @@ export const getPlayers = async (req: Request, res: Response) => {
 		}
 		res.json(responsePayload);
 	} catch (err) {
-		console.log('err', err);
 		res.sendStatus(400);
 	}
 };
@@ -68,8 +67,19 @@ export const createPlayer = async (req: Request, res: Response) => {
 		await playerQuery(createPlayerSql, values);
 		res.sendStatus(201);
 	} catch (err) {
-		console.log('err', err);
 		throw err;
 	}
 };
 
+export const deletePlayer = async (req: Request, res: Response) => {
+	try {
+		const playerId = req.params.id;
+		if (!playerId) throw Error('Player id is missing');
+		const deletePlayerSql = `DELETE FROM players WHERE id = ?`;
+		const values = [playerId];
+		await playerQuery(deletePlayerSql, values);
+		res.sendStatus(204);
+	} catch (err) {
+		throw err;
+	}
+};

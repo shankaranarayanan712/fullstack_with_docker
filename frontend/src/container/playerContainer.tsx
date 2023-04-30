@@ -55,14 +55,14 @@ function PlayerContainer(): JSX.Element {
 		setPlayerToDelete(null);
 	};
 
-	const handleDeleteConfirmed = () => {
+	const handleDeleteConfirmed = async () => {
 		if (playerToDelete) {
-			const updatedPlayers = players.filter(
-				(player) => player.id !== playerToDelete.id
+			await axios.delete(
+				`${constants.baseApiUrl}/players/${playerToDelete.id}`
 			);
-			setPlayers(updatedPlayers);
 			setPlayerToDelete(null);
 			setConfirmDialogOpen(false);
+			await fetchPlayers();
 		}
 	};
 
@@ -77,7 +77,6 @@ function PlayerContainer(): JSX.Element {
 		axios
 			.post(`${constants.baseApiUrl}/players`, newPlayer)
 			.then((response) => {
-				console.log(response.data);
 				setCurrentPage(1);
 			});
 	};

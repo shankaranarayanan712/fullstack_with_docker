@@ -42,7 +42,7 @@ export const createTables = async (): Promise<void> => {
 		]);
 		console.log('tables created');
 	} catch (err) {
-		console.log('err', err);
+		throw err;
 	}
 };
 
@@ -82,7 +82,6 @@ export const insertSeedData = async (): Promise<void> => {
 		]);
 		console.log('data created');
 	} catch (err) {
-		console.log('err', err);
 		throw err;
 	}
 };

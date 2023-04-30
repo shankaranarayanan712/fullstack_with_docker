@@ -23,10 +23,9 @@ export default function AxiosRetry() {
         statusCodesToRetry: [[100, 199], [429, 429], [500, 599]],
         backoffType: 'static',
         onRetryAttempt: (err: any) => {
-          const cfg = rax.getConfig(err);
-          if (cfg) console.log(`Retry attempt #${cfg.currentRetryAttempt}`);
-          console.log(err)
-        }
+					const cfg = rax.getConfig(err);
+					if (cfg) console.log(`Retry attempt #${cfg.currentRetryAttempt}`);
+				}
       }
     })
   };
