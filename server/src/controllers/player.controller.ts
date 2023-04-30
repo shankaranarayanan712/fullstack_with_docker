@@ -1,12 +1,10 @@
 /** @format */
 
 import { Request, Response } from 'express';
-import db from '../dbConnection';
-import util from 'util';
+
 import { PlayerResponse } from '../interfaces/player.response';
 import { validationResult } from 'express-validator';
-
-const playerQuery = util.promisify(db.query).bind(db);
+import { playerQuery } from '../utils/utils';
 
 export const getPlayers = async (req: Request, res: Response) => {
 	try {
@@ -56,7 +54,7 @@ export const getPlayers = async (req: Request, res: Response) => {
 	}
 };
 
-export const createaPlayer = async (req: Request, res: Response) => {
+export const createPlayer = async (req: Request, res: Response) => {
 	try {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -74,3 +72,4 @@ export const createaPlayer = async (req: Request, res: Response) => {
 		throw err;
 	}
 };
+

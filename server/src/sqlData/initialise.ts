@@ -31,7 +31,7 @@ export const createTables = async (): Promise<void> => {
 			position VARCHAR(30),
 			age INTEGER, 
 			games VARCHAR(30), 
-			pts INTEGER 
+			points INTEGER 
 		);`;
 
 		await query(dropPlayerTable);
@@ -39,8 +39,8 @@ export const createTables = async (): Promise<void> => {
 		await Promise.all([
 			query(createPlayersTable),
 			query(createSeasonStatsTable),
-        ]);
-        console.log("tables created")
+		]);
+		console.log('tables created');
 	} catch (err) {
 		console.log('err', err);
 	}
@@ -64,23 +64,23 @@ export const insertSeedData = async (): Promise<void> => {
 				field.position,
 			]),
 		];
-		const seasonStatsInsert = `INSERT INTO season_stats (season, player, position, age,games,pts) VALUES ?`;
+		const seasonStatsInsert = `INSERT INTO season_stats (season, player, position, age,games,points) VALUES ?`;
 		const seasonStatsQuery = [
 			seasonStatsData?.map((field: any) => [
 				field.year,
 				field.player,
 				field.pos,
 				field.age ? field.age : 0,
-				field.games,
-				field.pts ? field.pts : 0,
+				field.G,
+				field.PTS ? field.PTS : 0,
 			]),
 		];
 
 		await Promise.all([
 			query(playersSql, queryArr),
 			query(seasonStatsInsert, seasonStatsQuery),
-        ]);
-        console.log("data created")
+		]);
+		console.log('data created');
 	} catch (err) {
 		console.log('err', err);
 		throw err;
