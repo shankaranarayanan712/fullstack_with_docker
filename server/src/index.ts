@@ -13,7 +13,7 @@ const port = 3008;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/api/players', playerRoutes);
+app.use('/api/player', playerRoutes);
 
 const initialise = async () => {
 	await createTables();

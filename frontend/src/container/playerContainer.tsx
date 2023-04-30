@@ -35,7 +35,7 @@ function PlayerContainer(): JSX.Element {
 	const [playerToDelete, setPlayerToDelete] = useState<Player | null>(null);
 	const fetchPlayers = useCallback(async () => {
 		const response = await axios.get(
-			`${constants.baseApiUrl}/players?npp=10&page=${currentPage}`
+			`${constants.baseApiUrl}/players?count=10&page=${currentPage}`
 		);
 		setPlayers(response.data.data);
 		setTotalPages(Math.ceil(response.data.totalPlayers / 10));

@@ -8,17 +8,18 @@ import { playerQuery } from '../utils/utils';
 
 export const getPlayers = async (req: Request, res: Response) => {
 	try {
-		const requestNpp = req.query?.npp as string;
+		const recordCount = req.query?.count as string;
 		const requestPage = req.query?.page as string;
-		const numPerPage = parseInt(requestNpp, 10) || 10;
+		const numPerPage = parseInt(recordCount, 10) || 10;
 		const page = parseInt(requestPage, 10) || 0;
 		const skip = page * numPerPage;
 		const limit = `${skip},${numPerPage}`;
-		const [totalPlayers] = await playerQuery(
+		const totalPlayers = await playerQuery(
 			'SELECT count(*) as numRows FROM players'
 		);
-		const numRows = totalPlayers.numRows;
-		const numPages = Math.ceil(numRows / numPerPage);
+		const numRows = totalPlayers && totalPlayers[0].numRows;
+		const numPages =
+			Math.ceil(numRows / numPerPage) > 0 ? Math.ceil(numRows / numPerPage) : 0;
 		const playersInRange = await playerQuery(
 			`SELECT * FROM players ORDER BY ID ASC LIMIT ${limit}`
 		);
@@ -33,7 +34,7 @@ export const getPlayers = async (req: Request, res: Response) => {
 				err: undefined,
 			},
 		};
-		if (page < numPages) {
+		if (page <= numPages) {
 			responsePayload.pagination = {
 				current: page,
 				perPage: numPerPage,
