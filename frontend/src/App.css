@@ -22,3 +22,37 @@
 .App-link {
   color: #61dafb;
 }
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1%;
+}
+
+.table-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.table-cell {
+  padding: 8px;
+  font-size: 2px;
+}
+
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  margin-top: 10px;
+}
+
+.add-player-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
