@@ -2,7 +2,7 @@
 
 import express from 'express';
 import { validateQueryParams } from '../validation/getPlayer.request.validation';
-import { deletePlayer } from '../controllers/player.controller';
+import { deletePlayer, findBestTeam } from '../controllers/player.controller';
 const router = express.Router();
 const { checkSchema } = require('express-validator');
 const {
@@ -15,5 +15,6 @@ const {
 
 router.get('/', validateQueryParams, getPlayers);
 router.post('/', checkSchema(userDataValidateSchemaBased), createPlayer);
+router.get('/findBestTeam/:budget', findBestTeam);
 router.delete('/:id', deletePlayer);
 module.exports = router;

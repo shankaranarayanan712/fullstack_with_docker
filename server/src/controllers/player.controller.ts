@@ -84,3 +84,86 @@ export const deletePlayer = async (req: Request, res: Response) => {
 		throw err;
 	}
 };
+
+
+export const findBestTeam = async (req: Request, res: Response) => {
+	try {
+		const budget = req.params.budget;
+		const query = `
+		SELECT
+		  ranked_players.*
+		FROM
+		  (
+			SELECT
+			  ps.id,
+			  ps.player,
+			  ps.height,
+			  ps.weight,
+			  ps.collage,
+			  ps.born,
+			  ps.birth_city,
+			  ps.birth_state,
+			  ps.year_start,
+			  ps.year_end,
+			  ps.position,
+			  ps.age,
+			  ps.games,
+			  ps.points,
+			  ps.cost,
+			  @running_total := @running_total + ps.cost AS cumulative_cost,
+			  @row_number := @row_number + 1 AS rank
+			FROM
+			  (
+				SELECT
+				  p.id,
+				  p.player,
+				  p.height,
+				  p.weight,
+				  p.collage,
+				  p.born,
+				  p.birth_city,
+				  p.birth_state,
+				  p.year_start,
+				  p.year_end,
+				  p.position,
+				  MIN(s.age) AS age,
+				  SUM(s.games) AS games,
+				  SUM(s.points) AS points,
+				  SUM(s.points * 1) AS cost
+				FROM
+				  players p
+				JOIN
+				  (
+					SELECT DISTINCT
+					  player,
+					  season,
+					  age,
+					  games,
+					  points
+					FROM
+					  season_stats
+				  ) AS s
+				ON
+				  p.player = s.player
+				GROUP BY
+				  p.id
+				ORDER BY
+				  age ASC,
+				  games DESC,
+				  points DESC
+			  ) AS ps,
+			  (SELECT @running_total := 0, @row_number := 0) r
+		  ) AS ranked_players
+		WHERE
+		  ranked_players.rank <= 5
+		  AND ranked_players.cumulative_cost <= ${budget}
+		ORDER BY
+		  ranked_players.rank;
+	  `;
+
+		const result = await playerQuery(query);
+		res.json(result);
+	} catch (err) {
+		throw err;
+	}
+};

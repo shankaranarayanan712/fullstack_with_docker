@@ -90,7 +90,8 @@ function AddPlayerForm({ open, onClose, onAdd }: Props): JSX.Element {
 					<TextField
 						required
 						margin='dense'
-						label='Born'
+						label='Born (year)'
+						type='number'
 						fullWidth
 						name='born'
 						value={formValues.born}
